@@ -1,0 +1,1924 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OSINT Scanner Pro - للجوال</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0d1117;
+            --secondary: #161b22;
+            --accent: #238636;
+            --accent2: #2ea043;
+            --text: #c9d1d9;
+            --text-secondary: #8b949e;
+            --danger: #f85149;
+            --warning: #d29922;
+            --success: #3fb950;
+            --cyber-blue: #0ff;
+            --cyber-pink: #f0f;
+            --deep-purple: #6e40c9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: var(--primary);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 10px;
+            overflow-x: hidden;
+            position: relative;
+            font-size: 14px;
+        }
+        
+        /* تأثيرات الخلفية الأمنية المتقدمة */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(18, 24, 32, 0.8) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(18, 24, 32, 0.8) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: -2;
+            opacity: 0.5;
+        }
+        
+        .cyber-grid:after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, var(--primary) 70%);
+            z-index: -1;
+        }
+        
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 15px 2px rgba(0, 255, 255, 0.7);
+            z-index: -1;
+            animation: scan 3.5s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { top: -3px; opacity: 0.8; }
+            50% { top: 100%; opacity: 1; }
+            100% { top: -3px; opacity: 0.8; }
+        }
+        
+        .hacker-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(0deg, rgba(0, 255, 255, 0.03) 0%, transparent 2%),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 0%, transparent 2%);
+            background-size: 4px 4px;
+            z-index: -1;
+            pointer-events: none;
+            animation: flicker 0.15s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 100%;
+            background: var(--secondary);
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+            margin: 0 auto;
+            transition: all 0.3s;
+        }
+        
+        .container:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--cyber-blue), var(--cyber-pink));
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+            z-index: 11;
+        }
+        
+        header {
+            background: linear-gradient(to bottom, rgba(13, 17, 23, 0.9), rgba(22, 27, 34, 0.9));
+            color: var(--text);
+            padding: 20px 15px;
+            position: relative;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .logo:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            opacity: 0.7;
+        }
+        
+        .logo-icon {
+            font-size: 1.8rem;
+            color: var(--cyber-blue);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+            animation: pulse 2s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { text-shadow: 0 0 10px rgba(0, 255, 255, 0.7); }
+            100% { text-shadow: 0 0 20px rgba(0, 255, 255, 1), 0 0 30px rgba(0, 255, 255, 0.5); }
+        }
+        
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--cyber-blue), var(--cyber-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        
+        .security-badge {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid var(--cyber-blue);
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+            animation: badgePulse 3s infinite;
+        }
+        
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.2); }
+            50% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.4); }
+        }
+        
+        header h1 {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            letter-spacing: -0.5px;
+            text-align: center;
+            background: linear-gradient(to right, var(--text), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        header p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            text-align: center;
+            line-height: 1.5;
+            max-width: 90%;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-top: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+            flex-wrap: wrap;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+        }
+        
+        .tab {
+            flex: 1;
+            min-width: 80px;
+            padding: 12px 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-size: 0.8rem;
+            position: relative;
+        }
+        
+        .tab.active {
+            background: rgba(0, 255, 255, 0.1);
+            border-bottom: 3px solid var(--cyber-blue);
+            color: var(--cyber-blue);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+        }
+        
+        .tab:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+        }
+        
+        .tab:after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: var(--cyber-blue);
+            transition: all 0.3s;
+        }
+        
+        .tab:hover:after {
+            width: 100%;
+        }
+        
+        .main-content {
+            padding: 20px 15px;
+        }
+        
+        .input-section {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .input-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.03) 0%, transparent 50%, rgba(255, 0, 255, 0.03) 100%);
+            pointer-events: none;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+        
+        .input-group label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            text-shadow: 0 0 5px rgba(201, 209, 217, 0.3);
+        }
+        
+        .input-field {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .input-field i {
+            background: linear-gradient(to bottom, var(--accent), var(--accent2));
+            color: white;
+            padding: 10px 12px;
+            border-radius: 8px 0 0 8px;
+            font-size: 1rem;
+            min-width: 40px;
+            text-align: center;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .input-field input {
+            flex: 1;
+            padding: 10px 12px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            color: var(--text);
+            text-shadow: 0 0 5px rgba(201, 209, 217, 0.3);
+        }
+        
+        .input-field input:focus {
+            outline: none;
+            border-color: var(--cyber-blue);
+            box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.9);
+        }
+        
+        .input-field input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+        
+        .advanced-options {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px dashed rgba(0, 255, 255, 0.3);
+            position: relative;
+        }
+        
+        .advanced-options h3 {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--cyber-blue);
+            font-size: 1rem;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+        }
+        
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 10px;
+            margin: 12px 0;
+        }
+        
+        .platform-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-size: 0.8rem;
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .platform-checkbox:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, transparent 100%);
+            z-index: -1;
+        }
+        
+        .platform-checkbox:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(0, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .platform-checkbox input {
+            accent-color: var(--cyber-blue);
+            transform: scale(0.9);
+        }
+        
+        .platform-checkbox i {
+            font-size: 1.1rem;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+            flex-direction: column;
+        }
+        
+        .btn {
+            padding: 12px 15px;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 1px solid transparent;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .btn:hover:before {
+            opacity: 1;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--deep-purple), var(--cyber-pink));
+            color: white;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 5px 15px rgba(110, 64, 201, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(110, 64, 201, 0.6);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: rgba(0, 255, 255, 0.1);
+            color: var(--cyber-blue);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(0, 255, 255, 0.15);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+        }
+        
+        .btn-danger {
+            background: rgba(248, 81, 73, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(248, 81, 73, 0.3);
+        }
+        
+        .btn-danger:hover {
+            background: rgba(248, 81, 73, 0.15);
+            box-shadow: 0 0 15px rgba(248, 81, 73, 0.2);
+        }
+        
+        .results-section {
+            display: none;
+        }
+        
+        .results-header {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            position: relative;
+        }
+        
+        .results-header:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--cyber-blue), transparent);
+        }
+        
+        .results-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .results-title h2 {
+            font-size: 1.4rem;
+            background: linear-gradient(to right, var(--cyber-blue), var(--cyber-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        
+        .results-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .summary-card {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .summary-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border-color: var(--cyber-blue);
+        }
+        
+        .summary-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, transparent 100%);
+            z-index: -1;
+        }
+        
+        .summary-card i {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--cyber-blue);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        
+        .summary-card h3 {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .summary-card .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cyber-blue);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .social-card {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--cyber-blue);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s;
+        }
+        
+        .social-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            border-color: var(--cyber-blue);
+        }
+        
+        .social-card:hover:before {
+            transform: scaleX(1);
+        }
+        
+        .social-card i {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-card:hover i {
+            transform: scale(1.1);
+        }
+        
+        .social-card h3 {
+            margin-bottom: 8px;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+        
+        .social-card .status {
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 15px;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .social-card .status.found {
+            background: rgba(46, 160, 67, 0.2);
+            color: var(--accent2);
+            border: 1px solid var(--accent2);
+        }
+        
+        .social-card .status.not-found {
+            background: rgba(248, 81, 73, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .social-card .status.verification {
+            background: rgba(210, 153, 34, 0.2);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+        
+        .social-card .status.leaked {
+            background: rgba(255, 0, 255, 0.2);
+            color: var(--cyber-pink);
+            border: 1px solid var(--cyber-pink);
+        }
+        
+        .social-card .details {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(0, 255, 255, 0.2);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: left;
+        }
+        
+        .social-card .details strong {
+            color: var(--cyber-blue);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            display: none;
+            position: relative;
+        }
+        
+        .scan-container {
+            width: 100%;
+            max-width: 300px;
+            height: 8px;
+            background: rgba(0, 255, 255, 0.1);
+            border-radius: 4px;
+            margin: 20px auto;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+        }
+        
+        .scan-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, var(--cyber-blue), var(--cyber-pink));
+            border-radius: 4px;
+            animation: scanProgress 2s infinite linear;
+        }
+        
+        @keyframes scanProgress {
+            0% { width: 0%; left: 0; }
+            50% { width: 100%; left: 0; }
+            100% { width: 0%; left: 100%; }
+        }
+        
+        .loading-text {
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            animation: blink 1.5s infinite;
+            color: var(--cyber-blue);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .terminal-output {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 20px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        .terminal-output:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent 95%, rgba(0, 255, 255, 0.05) 100%);
+            pointer-events: none;
+        }
+        
+        .terminal-line {
+            margin-bottom: 4px;
+            word-break: break-word;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        .terminal-line:before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--cyber-blue);
+        }
+        
+        .terminal-line:last-child {
+            margin-bottom: 0;
+        }
+        
+        .terminal-line.success {
+            color: var(--accent2);
+        }
+        
+        .terminal-line.warning {
+            color: var(--warning);
+        }
+        
+        .terminal-line.error {
+            color: var(--danger);
+        }
+        
+        .terminal-line.info {
+            color: var(--text);
+        }
+        
+        .terminal-line.cyber {
+            color: var(--cyber-blue);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+        }
+        
+        .terminal-line.leak {
+            color: var(--cyber-pink);
+            text-shadow: 0 0 5px rgba(255, 0, 255, 0.3);
+        }
+        
+        .disclaimer {
+            background: rgba(210, 153, 34, 0.1);
+            border-left: 4px solid var(--warning);
+            padding: 12px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            border: 1px solid rgba(210, 153, 34, 0.2);
+        }
+        
+        .disclaimer strong {
+            color: var(--warning);
+        }
+        
+        .data-leak-section {
+            background: rgba(248, 81, 73, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 12px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            border: 1px solid rgba(248, 81, 73, 0.2);
+            animation: pulseWarning 2s infinite;
+        }
+        
+        @keyframes pulseWarning {
+            0%, 100% { border-color: rgba(248, 81, 73, 0.2); }
+            50% { border-color: rgba(248, 81, 73, 0.5); }
+        }
+        
+        .data-leak-section strong {
+            color: var(--danger);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            border-top: 1px solid rgba(0, 255, 255, 0.2);
+            line-height: 1.5;
+        }
+        
+        /* تأثيرات خاصة */
+        .glitch {
+            position: relative;
+        }
+        
+        .glitch:before, .glitch:after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+        
+        .glitch:before {
+            color: var(--cyber-blue);
+            z-index: -1;
+            animation: glitch-effect 3s infinite;
+        }
+        
+        .glitch:after {
+            color: var(--cyber-pink);
+            z-index: -2;
+            animation: glitch-effect 2s infinite reverse;
+        }
+        
+        @keyframes glitch-effect {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
+        
+        /* تحسينات للأجهزة الصغيرة جداً */
+        @media (max-width: 380px) {
+            .social-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs .tab {
+                min-width: 70px;
+                font-size: 0.75rem;
+                padding: 10px 3px;
+            }
+            
+            .platforms-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+            
+            .results-summary {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+                font-size: 16px;
+            }
+            
+            .container {
+                max-width: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- تأثيرات الخلفية المتقدمة -->
+    <div class="cyber-grid"></div>
+    <div class="scan-line"></div>
+    <div class="hacker-effect"></div>
+    
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <div class="logo-text">OSINT SCANNER PRO</div>
+                </div>
+                <div class="security-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>هاكر أخلاقي - الإصدار المتميز</span>
+                </div>
+            </div>
+            
+            <h1 class="glitch" data-text="أداة البحث عن مواقع التواصل">أداة البحث عن مواقع التواصل</h1>
+            <p>أداة متقدمة للبحث في المصادر المفتوحة (OSINT) للعثور على حسابات التواصل الاجتماعي المرتبطة برقم الهاتف أو البريد الإلكتروني أو الاسم</p>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="phone">
+                    <i class="fas fa-mobile-alt"></i>
+                    بحث بالرقم
+                </div>
+                <div class="tab" data-tab="email">
+                    <i class="fas fa-envelope"></i>
+                    بحث بالبريد
+                </div>
+                <div class="tab" data-tab="name">
+                    <i class="fas fa-user"></i>
+                    بحث بالاسم
+                </div>
+                <div class="tab" data-tab="advanced">
+                    <i class="fas fa-cogs"></i>
+                    بحث متقدم
+                </div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <!-- قسم إدخال رقم الهاتف -->
+            <div class="input-section" id="phone-section">
+                <div class="input-group">
+                    <label for="phone-number">
+                        <i class="fas fa-mobile-alt"></i>
+                        رقم الهاتف:
+                    </label>
+                    <div class="input-field">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" id="phone-number" placeholder="+20123456789" required>
+                    </div>
+                </div>
+                
+                <div class="advanced-options">
+                    <h3>
+                        <i class="fas fa-cogs"></i>
+                        خيارات البحث المتقدم
+                    </h3>
+                    
+                    <div class="platforms-grid">
+                        <label class="platform-checkbox">
+                            <input type="checkbox" checked>
+                            <i class="fab fa-facebook"></i>
+                            فيسبوك
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox" checked>
+                            <i class="fab fa-twitter"></i>
+                            تويتر
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox" checked>
+                            <i class="fab fa-instagram"></i>
+                            إنستغرام
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox" checked>
+                            <i class="fab fa-whatsapp"></i>
+                            واتساب
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox">
+                            <i class="fab fa-linkedin"></i>
+                            لينكدإن
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox">
+                            <i class="fab fa-youtube"></i>
+                            يوتيوب
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox" checked>
+                            <i class="fab fa-snapchat"></i>
+                            سناب شات
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox">
+                            <i class="fab fa-tiktok"></i>
+                            تيك توك
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox">
+                            <i class="fab fa-telegram"></i>
+                            تيليجرام
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox">
+                            <i class="fab fa-reddit"></i>
+                            ريديت
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox">
+                            <i class="fab fa-pinterest"></i>
+                            بينتريست
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox">
+                            <i class="fab fa-discord"></i>
+                            ديسكورد
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <button class="btn btn-primary" id="search-btn">
+                        <i class="fas fa-search"></i>
+                        بدء عملية المسح المتقدم
+                    </button>
+                    <button class="btn btn-secondary" id="deep-scan-btn">
+                        <i class="fas fa-search-plus"></i>
+                        مسح عميق (متميز)
+                    </button>
+                    <button class="btn btn-danger" id="clear-btn">
+                        <i class="fas fa-trash-alt"></i>
+                        مسح النتائج
+                    </button>
+                </div>
+            </div>
+            
+            <!-- قسم إدخال البريد الإلكتروني (مخفي افتراضياً) -->
+            <div class="input-section" id="email-section" style="display: none;">
+                <div class="input-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i>
+                        البريد الإلكتروني:
+                    </label>
+                    <div class="input-field">
+                        <i class="fas fa-at"></i>
+                        <input type="email" id="email" placeholder="example@domain.com" required>
+                    </div>
+                </div>
+                
+                <div class="advanced-options">
+                    <h3>
+                        <i class="fas fa-cogs"></i>
+                        خيارات البحث المتقدم
+                    </h3>
+                    
+                    <div class="platforms-grid">
+                        <label class="platform-checkbox">
+                            <input type="checkbox" checked>
+                            <i class="fab fa-google"></i>
+                            جوجل
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox" checked>
+                            <i class="fab fa-facebook"></i>
+                            فيسبوك
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox" checked>
+                            <i class="fab fa-twitter"></i>
+                            تويتر
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox">
+                            <i class="fab fa-github"></i>
+                            جيت هاب
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox">
+                            <i class="fab fa-stack-overflow"></i>
+                            ستاك أوفرفلو
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox">
+                            <i class="fab fa-spotify"></i>
+                            سبوتيفاي
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <button class="btn btn-primary" id="search-email-btn">
+                        <i class="fas fa-search"></i>
+                        بدء عملية المسح المتقدم
+                    </button>
+                    <button class="btn btn-secondary" id="deep-scan-email-btn">
+                        <i class="fas fa-search-plus"></i>
+                        مسح عميق (متميز)
+                    </button>
+                    <button class="btn btn-danger" id="clear-email-btn">
+                        <i class="fas fa-trash-alt"></i>
+                        مسح النتائج
+                    </button>
+                </div>
+            </div>
+            
+            <!-- قسم إدخال الاسم (مخفي افتراضياً) -->
+            <div class="input-section" id="name-section" style="display: none;">
+                <div class="input-group">
+                    <label for="full-name">
+                        <i class="fas fa-user"></i>
+                        الاسم الكامل:
+                    </label>
+                    <div class="input-field">
+                        <i class="fas fa-signature"></i>
+                        <input type="text" id="full-name" placeholder="الاسم الأول + العائلة" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        الموقع (اختياري):
+                    </label>
+                    <div class="input-field">
+                        <i class="fas fa-globe"></i>
+                        <input type="text" id="location" placeholder="البلد/المدينة">
+                    </div>
+                </div>
+                
+                <div class="advanced-options">
+                    <h3>
+                        <i class="fas fa-cogs"></i>
+                        خيارات البحث المتقدم
+                    </h3>
+                    
+                    <div class="platforms-grid">
+                        <label class="platform-checkbox">
+                            <input type="checkbox" checked>
+                            <i class="fas fa-id-card"></i>
+                            السجلات العامة
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox" checked>
+                            <i class="fas fa-newspaper"></i>
+                            المقالات الإخبارية
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox">
+                            <i class="fas fa-graduation-cap"></i>
+                            السجلات الأكاديمية
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox">
+                            <i class="fas fa-briefcase"></i>
+                            السجلات المهنية
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <button class="btn btn-primary" id="search-name-btn">
+                        <i class="fas fa-search"></i>
+                        بدء عملية المسح المتقدم
+                    </button>
+                    <button class="btn btn-secondary" id="deep-scan-name-btn">
+                        <i class="fas fa-search-plus"></i>
+                        مسح عميق (متميز)
+                    </button>
+                    <button class="btn btn-danger" id="clear-name-btn">
+                        <i class="fas fa-trash-alt"></i>
+                        مسح النتائج
+                    </button>
+                </div>
+            </div>
+            
+            <!-- قسم البحث المتقدم (مخفي افتراضياً) -->
+            <div class="input-section" id="advanced-section" style="display: none;">
+                <div class="input-group">
+                    <label for="advanced-query">
+                        <i class="fas fa-terminal"></i>
+                        استعلام البحث المتقدم:
+                    </label>
+                    <div class="input-field">
+                        <i class="fas fa-code"></i>
+                        <input type="text" id="advanced-query" placeholder="مثال: site:facebook.com +\"الاسم\" +\"البلد\"" required>
+                    </div>
+                </div>
+                
+                <div class="advanced-options">
+                    <h3>
+                        <i class="fas fa-database"></i>
+                        قواعد البيانات المستهدفة
+                    </h3>
+                    
+                    <div class="platforms-grid">
+                        <label class="platform-checkbox">
+                            <input type="checkbox" checked>
+                            <i class="fas fa-search"></i>
+                            محركات البحث
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox" checked>
+                            <i class="fas fa-archive"></i>
+                            الأرشيفات
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox">
+                            <i class="fas fa-server"></i>
+                            قواعد البيانات المسربة
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox">
+                            <i class="fas fa-cloud"></i>
+                            خدمات الويب
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <button class="btn btn-primary" id="search-advanced-btn">
+                        <i class="fas fa-search"></i>
+                        بدء عملية المسح المتقدم
+                    </button>
+                    <button class="btn btn-secondary" id="deep-scan-advanced-btn">
+                        <i class="fas fa-search-plus"></i>
+                        مسح عميق (متميز)
+                    </button>
+                    <button class="btn btn-danger" id="clear-advanced-btn">
+                        <i class="fas fa-trash-alt"></i>
+                        مسح النتائج
+                    </button>
+                </div>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="scan-container">
+                    <div class="scan-progress"></div>
+                </div>
+                <p class="loading-text" id="loading-text">جاري فحص المصادر المفتوحة OSINT...</p>
+                
+                <div class="terminal-output" id="terminal-output">
+                    <div class="terminal-line info">> تهيئة أداة المسح الأمني المتقدم...</div>
+                    <div class="terminal-line info">> تحميل وحدات OSINT...</div>
+                </div>
+            </div>
+            
+            <div class="results-section" id="results">
+                <div class="results-header">
+                    <div class="results-title">
+                        <i class="fas fa-file-alt"></i>
+                        <h2>نتائج البحث المتقدم</h2>
+                    </div>
+                    <div class="results-actions">
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-download"></i>
+                            تصدير النتائج
+                        </button>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-share-alt"></i>
+                            مشاركة
+                        </button>
+                        <button class="btn btn-danger">
+                            <i class="fas fa-lock"></i>
+                            حذف آمن
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="results-summary">
+                    <div class="summary-card">
+                        <i class="fas fa-search"></i>
+                        <h3>المنصات المفحوصة</h3>
+                        <div class="value">12</div>
+                    </div>
+                    <div class="summary-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>الحسابات الموجودة</h3>
+                        <div class="value">7</div>
+                    </div>
+                    <div class="summary-card">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>الثغرات الأمنية</h3>
+                        <div class="value">3</div>
+                    </div>
+                    <div class="summary-card">
+                        <i class="fas fa-database"></i>
+                        <h3>قواعد البيانات</h3>
+                        <div class="value">5</div>
+                    </div>
+                </div>
+                
+                <div class="data-leak-section">
+                    <p><strong><i class="fas fa-exclamation-triangle"></i> تحذير أمني:</strong> تم العثور على هذا الرقم في <strong>3 تسريبات للبيانات</strong> بما في ذلك تسريب فيسبوك 2021. نوصي بتغيير كلمات المرور.</p>
+                </div>
+                
+                <div class="social-grid" id="social-grid">
+                    <!-- سيتم ملؤه ديناميكيًا بالنتائج -->
+                </div>
+                
+                <div class="disclaimer">
+                    <p><strong><i class="fas fa-exclamation-circle"></i> ملاحظة أمنية:</strong> هذه الأداة تقدم نتائج افتراضية لأغراض توضيحية. يجب استخدامها فقط للأغراض القانونية والأخلاقية. أي استخدام غير قانوني قد يعرضك للمساءلة القانونية.</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>OSINT Scanner Pro v3.1 - للجوال</p>
+            <p>تم تطويرها لأغراض الأمن السيبراني والهاكر الأخلاقي | &copy; 2023 فريق الأمن السيبراني</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // عناصر البحث بالهاتف
+            const searchBtn = document.getElementById('search-btn');
+            const deepScanBtn = document.getElementById('deep-scan-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const phoneInput = document.getElementById('phone-number');
+            
+            // عناصر البحث بالإيميل
+            const searchEmailBtn = document.getElementById('search-email-btn');
+            const deepScanEmailBtn = document.getElementById('deep-scan-email-btn');
+            const clearEmailBtn = document.getElementById('clear-email-btn');
+            const emailInput = document.getElementById('email');
+            
+            // عناصر البحث بالاسم
+            const searchNameBtn = document.getElementById('search-name-btn');
+            const deepScanNameBtn = document.getElementById('deep-scan-name-btn');
+            const clearNameBtn = document.getElementById('clear-name-btn');
+            const nameInput = document.getElementById('full-name');
+            const locationInput = document.getElementById('location');
+            
+            // عناصر البحث المتقدم
+            const searchAdvancedBtn = document.getElementById('search-advanced-btn');
+            const deepScanAdvancedBtn = document.getElementById('deep-scan-advanced-btn');
+            const clearAdvancedBtn = document.getElementById('clear-advanced-btn');
+            const advancedQueryInput = document.getElementById('advanced-query');
+            
+            // العناصر المشتركة
+            const loadingSection = document.getElementById('loading');
+            const resultsSection = document.getElementById('results');
+            const terminalOutput = document.getElementById('terminal-output');
+            const loadingText = document.getElementById('loading-text');
+            const socialGrid = document.getElementById('social-grid');
+
+            // بيانات نتائج البحث
+            const mockResults = {
+                phone: {
+                    normal: [
+                        { platform: 'facebook', found: true, username: 'user_fb123', lastActive: 'قبل 3 أيام', email: 'user****@gmail.com' },
+                        { platform: 'instagram', found: true, username: 'user_insta', followers: '1,234' },
+                        { platform: 'whatsapp', found: true, status: 'متصل الآن' },
+                        { platform: 'twitter', found: false },
+                        { platform: 'snapchat', found: true, username: 'user_snap', score: '45,678' }
+                    ],
+                    deep: [
+                        { platform: 'facebook', found: true, username: 'user_fb123', lastActive: 'قبل 3 أيام', email: 'user123@gmail.com', created: 'مارس 2018' },
+                        { platform: 'instagram', found: true, username: 'user_insta', followers: '1,234', lastActive: 'قبل يومين' },
+                        { platform: 'whatsapp', found: true, status: 'متصل الآن', lastSeen: 'اليوم 15:32' },
+                        { platform: 'twitter', found: true, username: '@user_tw', lastTweet: 'قبل 5 ساعات', needsVerification: true },
+                        { platform: 'snapchat', found: true, username: 'user_snap', lastActive: 'قبل 12 ساعة' },
+                        { platform: 'telegram', found: true, username: 'user_tg', lastSeen: 'أمس' },
+                        { platform: 'github', found: true, username: 'user_gh', repos: '12' },
+                        { platform: 'leak', found: true, source: 'تسريب فيسبوك 2021', email: 'user123@gmail.com' }
+                    ]
+                },
+                email: {
+                    normal: [
+                        { platform: 'google', found: true, username: 'user123', lastActivity: 'قبل ساعتين' },
+                        { platform: 'facebook', found: true, username: 'user_fb123', friends: '542' },
+                        { platform: 'twitter', found: false },
+                        { platform: 'github', found: true, username: 'dev-user', repos: '8' }
+                    ],
+                    deep: [
+                        { platform: 'google', found: true, username: 'user123', lastActivity: 'قبل ساعتين', devices: '3 أجهزة' },
+                        { platform: 'facebook', found: true, username: 'user_fb123', friends: '542', groups: '12' },
+                        { platform: 'twitter', found: true, username: '@user_tw', tweets: '1,234' },
+                        { platform: 'github', found: true, username: 'dev-user', repos: '8', stars: '45' },
+                        { platform: 'linkedin', found: true, username: 'prof-user', connections: '500+' },
+                        { platform: 'leak', found: true, source: 'تسريب أدوبي 2013', passwordStrength: 'ضعيف' }
+                    ]
+                },
+                name: {
+                    normal: [
+                        { platform: 'public_records', found: true, info: '3 سجلات عامة' },
+                        { platform: 'news', found: true, info: '2 مقالة إخبارية' },
+                        { platform: 'academic', found: false },
+                        { platform: 'professional', found: true, info: '1 سجل مهني' }
+                    ],
+                    deep: [
+                        { platform: 'public_records', found: true, info: '5 سجلات عامة' },
+                        { platform: 'news', found: true, info: '4 مقالات إخبارية' },
+                        { platform: 'academic', found: true, info: '2 سجل أكاديمي' },
+                        { platform: 'professional', found: true, info: '3 سجلات مهنية' },
+                        { platform: 'social_media', found: true, info: '7 حسابات مرتبطة' },
+                        { platform: 'leak', found: true, source: 'تسريب البيانات الحكومية', info: '2 سجلات مسربة' }
+                    ]
+                },
+                advanced: {
+                    normal: [
+                        { platform: 'search_engines', found: true, info: '124 نتيجة بحث' },
+                        { platform: 'archives', found: true, info: '12 صفحة مؤرشفة' },
+                        { platform: 'databases', found: false },
+                        { platform: 'web_services', found: true, info: '5 خدمات مرتبطة' }
+                    ],
+                    deep: [
+                        { platform: 'search_engines', found: true, info: '356 نتيجة بحث' },
+                        { platform: 'archives', found: true, info: '45 صفحة مؤرشفة' },
+                        { platform: 'databases', found: true, info: '3 قواعد بيانات' },
+                        { platform: 'web_services', found: true, info: '12 خدمة مرتبطة' },
+                        { platform: 'dark_web', found: true, info: '2 ظهور في الشبكة المظلمة' },
+                        { platform: 'leak', found: true, source: 'شبكات التواصل المهكرة', info: '7 سجلات مسربة' }
+                    ]
+                }
+            };
+
+            // تغيير التبويبات
+            const tabs = document.querySelectorAll('.tab');
+            const sections = {
+                phone: document.getElementById('phone-section'),
+                email: document.getElementById('email-section'),
+                name: document.getElementById('name-section'),
+                advanced: document.getElementById('advanced-section')
+            };
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    Object.values(sections).forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    const tabType = this.getAttribute('data-tab');
+                    sections[tabType].style.display = 'block';
+                });
+            });
+
+            // رسائل المحاكاة العشوائية
+            const randomMessages = {
+                phone: [
+                    "جاري فحص قواعد بيانات شركات الاتصالات...",
+                    "تحليل سجلات المكالمات الواردة والصادرة...",
+                    "ربط الرقم بأرقام أخرى مرتبطة...",
+                    "فحص سجلات تسجيل الحسابات...",
+                    "تحليل أنماط استخدام الهاتف..."
+                ],
+                email: [
+                    "جاري فحص قواعد بيانات التسريبات...",
+                    "تحليل سجلات تسجيل الدخول...",
+                    "ربط البريد بحسابات أخرى...",
+                    "فحص سجلات خوادم البريد الإلكتروني...",
+                    "تحليل أنماط استخدام البريد..."
+                ],
+                name: [
+                    "جاري البحث في السجلات العامة...",
+                    "تحليل المقالات الإخبارية...",
+                    "ربط الاسم بأسماء مشابهة...",
+                    "فحص السجلات الأكاديمية...",
+                    "تحليل السجلات المهنية..."
+                ],
+                advanced: [
+                    "جاري تنفيذ استعلام البحث...",
+                    "تحليل نتائج البحث المتقدم...",
+                    "ربط البيانات عبر مصادر متعددة...",
+                    "فحص قواعد البيانات العميقة...",
+                    "تحليل أنماط البيانات المعقدة..."
+                ]
+            };
+
+            // معالجة البحث بالهاتف
+            searchBtn.addEventListener('click', () => startScan('phone', false));
+            deepScanBtn.addEventListener('click', () => startScan('phone', true));
+            clearBtn.addEventListener('click', () => clearResults('phone'));
+
+            // معالجة البحث بالإيميل
+            searchEmailBtn.addEventListener('click', () => startScan('email', false));
+            deepScanEmailBtn.addEventListener('click', () => startScan('email', true));
+            clearEmailBtn.addEventListener('click', () => clearResults('email'));
+
+            // معالجة البحث بالاسم
+            searchNameBtn.addEventListener('click', () => startScan('name', false));
+            deepScanNameBtn.addEventListener('click', () => startScan('name', true));
+            clearNameBtn.addEventListener('click', () => clearResults('name'));
+
+            // معالجة البحث المتقدم
+            searchAdvancedBtn.addEventListener('click', () => startScan('advanced', false));
+            deepScanAdvancedBtn.addEventListener('click', () => startScan('advanced', true));
+            clearAdvancedBtn.addEventListener('click', () => clearResults('advanced'));
+
+            // بدء عملية المسح
+            function startScan(type, isDeepScan) {
+                let input, inputType;
+                
+                switch(type) {
+                    case 'phone':
+                        input = phoneInput;
+                        inputType = 'رقم الهاتف';
+                        break;
+                    case 'email':
+                        input = emailInput;
+                        inputType = 'البريد الإلكتروني';
+                        break;
+                    case 'name':
+                        input = nameInput;
+                        inputType = 'الاسم الكامل';
+                        break;
+                    case 'advanced':
+                        input = advancedQueryInput;
+                        inputType = 'استعلام البحث';
+                        break;
+                }
+                
+                const value = input.value.trim();
+                
+                if (!value) {
+                    showTerminalMessage(`الرجاء إدخال ${inputType} أولاً`, 'error');
+                    shakeElement(input);
+                    return;
+                }
+                
+                if (type === 'phone' && !/^\+\d{10,15}$/.test(value)) {
+                    showTerminalMessage('الرجاء إدخال رقم هاتف دولي صحيح (مثال: +20123456789)', 'error');
+                    shakeElement(input);
+                    return;
+                }
+                
+                if (type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                    showTerminalMessage('الرجاء إدخال بريد إلكتروني صحيح (مثال: user@domain.com)', 'error');
+                    shakeElement(input);
+                    return;
+                }
+                
+                loadingSection.style.display = 'block';
+                resultsSection.style.display = 'none';
+                terminalOutput.innerHTML = `<div class="terminal-line info">> بدء عملية المسح ${isDeepScan ? 'العميق' : 'المتقدم'}...</div>`;
+                
+                if (isDeepScan) {
+                    loadingText.textContent = `جاري المسح العميق ل${inputType} (قد يستغرق وقتاً أطول)...`;
+                    showTerminalMessage('> تفعيل وضع المسح العميق...', 'cyber');
+                    showTerminalMessage('> الاتصال بخوادم OSINT المتميزة...', 'cyber');
+                } else {
+                    loadingText.textContent = `جاري فحص ${inputType} عبر المصادر المفتوحة...`;
+                }
+                
+                let progress = 0;
+                const totalSteps = isDeepScan ? 15 : 8;
+                const interval = setInterval(() => {
+                    progress++;
+                    
+                    if (progress % 2 === 0) {
+                        const randomMsg = randomMessages[type][Math.floor(Math.random() * randomMessages[type].length)];
+                        showTerminalMessage('> ' + randomMsg, 'info');
+                    }
+                    
+                    if (progress === 3) {
+                        const foundCount = isDeepScan ? Math.floor(Math.random() * 3) + 5 : Math.floor(Math.random() * 3) + 2;
+                        showTerminalMessage(`> تم اكتشاف ${foundCount} ${type === 'name' ? 'سجلات' : 'حسابات'} محتملة...`, 'success');
+                    }
+                    
+                    if (progress === 5 && isDeepScan) {
+                        showTerminalMessage('> تم العثور على تسريب بيانات محتمل...', 'leak');
+                    }
+                    
+                    if (progress === totalSteps - 2) {
+                        showTerminalMessage('> جاري تجميع النتائج النهائية...', 'cyber');
+                    }
+                    
+                    if (progress >= totalSteps) {
+                        clearInterval(interval);
+                        
+                        const resultsCount = mockResults[type][isDeepScan ? 'deep' : 'normal'].length;
+                        showTerminalMessage('> اكتمل المسح بنجاح!', 'success');
+                        showTerminalMessage(`> تم العثور على ${resultsCount} ${type === 'name' ? 'سجلات' : 'حسابات'} مرتبطة`, 'success');
+                        
+                        if (isDeepScan) {
+                            showTerminalMessage('> تحذير: تم العثور على بيانات في تسريبات', 'error');
+                        }
+                        
+                        setTimeout(() => {
+                            loadingSection.style.display = 'none';
+                            resultsSection.style.display = 'block';
+                            displayResults(type, isDeepScan);
+                            animateResults();
+                        }, 1500);
+                    }
+                }, isDeepScan ? 800 : 600);
+            }
+
+            // عرض النتائج
+            function displayResults(type, isDeepScan) {
+                const results = mockResults[type][isDeepScan ? 'deep' : 'normal'];
+                let html = '';
+                
+                results.forEach(result => {
+                    const platform = result.platform;
+                    let icon, color, name;
+                    
+                    // تحديد الأيقونة واللون حسب المنصة
+                    switch(platform) {
+                        case 'facebook':
+                            icon = 'fab fa-facebook';
+                            color = '#1877f2';
+                            name = 'فيسبوك';
+                            break;
+                        case 'instagram':
+                            icon = 'fab fa-instagram';
+                            color = '#e1306c';
+                            name = 'إنستغرام';
+                            break;
+                        case 'whatsapp':
+                            icon = 'fab fa-whatsapp';
+                            color = '#25d366';
+                            name = 'واتساب';
+                            break;
+                        case 'twitter':
+                            icon = 'fab fa-twitter';
+                            color = '#1da1f2';
+                            name = 'تويتر';
+                            break;
+                        case 'snapchat':
+                            icon = 'fab fa-snapchat';
+                            color = '#fffc00';
+                            name = 'سناب شات';
+                            break;
+                        case 'telegram':
+                            icon = 'fab fa-telegram';
+                            color = '#0088cc';
+                            name = 'تيليجرام';
+                            break;
+                        case 'github':
+                            icon = 'fab fa-github';
+                            color = '#ffffff';
+                            name = 'جيت هاب';
+                            break;
+                        case 'google':
+                            icon = 'fab fa-google';
+                            color = '#4285f4';
+                            name = 'جوجل';
+                            break;
+                        case 'linkedin':
+                            icon = 'fab fa-linkedin';
+                            color = '#0a66c2';
+                            name = 'لينكدإن';
+                            break;
+                        case 'leak':
+                            icon = 'fas fa-database';
+                            color = '#ff0000';
+                            name = 'قاعدة بيانات مسربة';
+                            break;
+                        case 'public_records':
+                            icon = 'fas fa-id-card';
+                            color = '#4CAF50';
+                            name = 'السجلات العامة';
+                            break;
+                        case 'news':
+                            icon = 'fas fa-newspaper';
+                            color = '#f44336';
+                            name = 'المقالات الإخبارية';
+                            break;
+                        case 'academic':
+                            icon = 'fas fa-graduation-cap';
+                            color = '#9C27B0';
+                            name = 'السجلات الأكاديمية';
+                            break;
+                        case 'professional':
+                            icon = 'fas fa-briefcase';
+                            color = '#FF9800';
+                            name = 'السجلات المهنية';
+                            break;
+                        case 'search_engines':
+                            icon = 'fas fa-search';
+                            color = '#00BCD4';
+                            name = 'محركات البحث';
+                            break;
+                        case 'archives':
+                            icon = 'fas fa-archive';
+                            color = '#795548';
+                            name = 'الأرشيفات';
+                            break;
+                        case 'databases':
+                            icon = 'fas fa-server';
+                            color = '#607D8B';
+                            name = 'قواعد البيانات';
+                            break;
+                        case 'web_services':
+                            icon = 'fas fa-cloud';
+                            color = '#2196F3';
+                            name = 'خدمات الويب';
+                            break;
+                        case 'dark_web':
+                            icon = 'fas fa-mask';
+                            color = '#000000';
+                            name = 'الشبكة المظلمة';
+                            break;
+                        case 'social_media':
+                            icon = 'fas fa-share-alt';
+                            color = '#E91E63';
+                            name = 'وسائل التواصل';
+                            break;
+                        default:
+                            icon = 'fas fa-question';
+                            color = '#9E9E9E';
+                            name = platform;
+                    }
+                    
+                    let details = '';
+                    let statusClass = 'not-found';
+                    let statusText = 'غير موجود';
+                    
+                    if (result.found) {
+                        statusClass = platform === 'leak' ? 'leaked' : 
+                                      result.needsVerification ? 'verification' : 'found';
+                        statusText = platform === 'leak' ? 'معلومات مسربة' : 
+                                     result.needsVerification ? 'يتطلب التحقق' : 'حساب مؤكد';
+                        
+                        details = '<div class="details">';
+                        for (const [key, value] of Object.entries(result)) {
+                            if (key !== 'platform' && key !== 'found' && key !== 'needsVerification') {
+                                details += `<div><strong>${key.replace(/_/g, ' ')}:</strong> ${value}</div>`;
+                            }
+                        }
+                        details += '</div>';
+                    }
+                    
+                    html += `
+                        <div class="social-card">
+                            <i class="${icon}" style="color: ${color}"></i>
+                            <h3>${name}</h3>
+                            <div class="status ${statusClass}">${statusText}</div>
+                            ${details}
+                        </div>
+                    `;
+                });
+                
+                socialGrid.innerHTML = html;
+                updateSummary(results.length, type, isDeepScan);
+            }
+
+            // تحديث بطاقات الملخص
+            function updateSummary(count, type, isDeepScan) {
+                const summaryCards = document.querySelectorAll('.summary-card .value');
+                
+                // تحديث حسب نوع البحث وعمق المسح
+                if (type === 'phone') {
+                    summaryCards[0].textContent = isDeepScan ? '12' : '8';
+                    summaryCards[1].textContent = count;
+                    summaryCards[2].textContent = isDeepScan ? '3' : '1';
+                    summaryCards[3].textContent = isDeepScan ? '5' : '3';
+                } else if (type === 'email') {
+                    summaryCards[0].textContent = isDeepScan ? '8' : '6';
+                    summaryCards[1].textContent = count;
+                    summaryCards[2].textContent = isDeepScan ? '2' : '1';
+                    summaryCards[3].textContent = isDeepScan ? '3' : '2';
+                } else if (type === 'name') {
+                    summaryCards[0].textContent = isDeepScan ? '6' : '4';
+                    summaryCards[1].textContent = count;
+                    summaryCards[2].textContent = isDeepScan ? '1' : '0';
+                    summaryCards[3].textContent = isDeepScan ? '4' : '2';
+                } else if (type === 'advanced') {
+                    summaryCards[0].textContent = isDeepScan ? '10' : '8';
+                    summaryCards[1].textContent = count;
+                    summaryCards[2].textContent = isDeepScan ? '2' : '1';
+                    summaryCards[3].textContent = isDeepScan ? '6' : '4';
+                }
+                
+                // تحديث قسم تسريب البيانات
+                const dataLeakSection = document.querySelector('.data-leak-section');
+                if (isDeepScan) {
+                    dataLeakSection.style.display = 'block';
+                    const leakText = dataLeakSection.querySelector('p');
+                    if (type === 'phone') {
+                        leakText.innerHTML = '<strong><i class="fas fa-exclamation-triangle"></i> تحذير أمني:</strong> تم العثور على هذا الرقم في <strong>3 تسريبات للبيانات</strong> بما في ذلك تسريب فيسبوك 2021. نوصي بتغيير كلمات المرور.';
+                    } else if (type === 'email') {
+                        leakText.innerHTML = '<strong><i class="fas fa-exclamation-triangle"></i> تحذير أمني:</strong> تم العثور على هذا البريد في <strong>2 تسريب للبيانات</strong> بما في ذلك تسريب أدوبي 2013. نوصي بتغيير كلمات المرور.';
+                    } else if (type === 'name') {
+                        leakText.innerHTML = '<strong><i class="fas fa-exclamation-triangle"></i> تحذير أمني:</strong> تم العثور على هذا الاسم في <strong>1 تسريب للبيانات</strong> من مصادر حكومية.';
+                    } else if (type === 'advanced') {
+                        leakText.innerHTML = '<strong><i class="fas fa-exclamation-triangle"></i> تحذير أمني:</strong> تم العثور على نتائج في <strong>الشبكة المظلمة</strong> و 3 قواعد بيانات مسربة.';
+                    }
+                } else {
+                    dataLeakSection.style.display = 'none';
+                }
+            }
+
+            // مسح النتائج
+            function clearResults(type) {
+                switch(type) {
+                    case 'phone':
+                        phoneInput.value = '';
+                        break;
+                    case 'email':
+                        emailInput.value = '';
+                        break;
+                    case 'name':
+                        nameInput.value = '';
+                        locationInput.value = '';
+                        break;
+                    case 'advanced':
+                        advancedQueryInput.value = '';
+                        break;
+                }
+                
+                resultsSection.style.display = 'none';
+                terminalOutput.innerHTML = '<div class="terminal-line info">> تهيئة أداة المسح الأمني المتقدم...</div><div class="terminal-line info">> تحميل وحدات OSINT...</div>';
+            }
+
+            // تأثير اهتزاز العنصر
+            function shakeElement(element) {
+                element.style.transform = 'translateX(5px)';
+                setTimeout(() => {
+                    element.style.transform = 'translateX(-5px)';
+                    setTimeout(() => {
+                        element.style.transform = 'translateX(0)';
+                    }, 100);
+                }, 100);
+            }
+
+            // تأثير ظهور النتائج
+            function animateResults() {
+                const socialCards = document.querySelectorAll('.social-card');
+                const summaryCards = document.querySelectorAll('.summary-card');
+                
+                socialCards.forEach(card => card.style.opacity = '0');
+                summaryCards.forEach(card => card.style.opacity = '0');
+                
+                summaryCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.transition = 'opacity 0.5s ease-out';
+                        card.style.opacity = '1';
+                    }, index * 200);
+                });
+                
+                socialCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, summaryCards.length * 200 + index * 100);
+                });
+            }
+
+            // دالة لعرض رسائل المحاكاة في الطرفية
+            function showTerminalMessage(message, type = 'info') {
+                const line = document.createElement('div');
+                line.className = `terminal-line ${type}`;
+                line.textContent = message;
+                terminalOutput.appendChild(line);
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            }
+
+            // تأثيرات خاصة عند تحميل الصفحة
+            setTimeout(() => {
+                showTerminalMessage('> جاهز لبدء المسح. اختر نوع البحث وأدخل البيانات المطلوبة', 'cyber');
+            }, 2000);
+
+            // تأثيرات الاهتزاز عند النقر على البطاقات
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.social-card') || e.target.closest('.summary-card')) {
+                    const card = e.target.closest('.social-card') || e.target.closest('.summary-card');
+                    card.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        card.style.transform = '';
+                    }, 200);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
